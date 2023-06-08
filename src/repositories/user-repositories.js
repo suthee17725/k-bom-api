@@ -2,9 +2,9 @@ const { Op } = require("sequelize");
 const { User } = require("../models");
 
 exports.getUserByEmailOrMobile = (emailOrMobile) =>
-  User.fineOne({
+  User.findOne({
     where: {
-      [Op.or]: [{ emil: emailOrMobile }, { mobile: emailOrMobile }],
+      [Op.or]: [{ email: emailOrMobile }, { mobile: emailOrMobile }],
     },
   });
 

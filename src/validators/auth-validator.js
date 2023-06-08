@@ -2,8 +2,10 @@ const Joi = require("joi");
 
 const validate = require("./validate");
 
+// const testSchema = Joi.object({}).options({ allowUnknown: true });
+
 const registerSchema = Joi.object({
-  FirsName: Joi.string().trim().required(),
+  firstName: Joi.string().trim().required(),
   lastName: Joi.string().trim().required(),
   emailOrMobile: Joi.alternatives([
     Joi.string().email({ tlds: false }),
@@ -19,7 +21,11 @@ const registerSchema = Joi.object({
     .required()
     .strip(),
   email: Joi.forbidden().when("emailOrMobile", {
-    is: Joi.string().email()({ tlds: False }),
+    is: Joi.string().email({ tlds: false }),
+    then: Joi.string().default(Joi.ref("emailOrMobile")),
+  }),
+  mobile: Joi.forbidden().when("emailOrMobile", {
+    is: Joi.string().pattern(/^[0-9]{10}$/),
     then: Joi.string().default(Joi.ref("emailOrMobile")),
   }),
 });

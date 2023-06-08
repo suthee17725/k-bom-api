@@ -1,8 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+
+const authRoute = require("./routes/auth-route");
 
 const notFoundMiddleware = require("./midlewares/not-founds");
 const errorMiddleware = require("./midlewares/error");
@@ -24,6 +27,8 @@ app.use(
 
 app.use(helmet());
 app.use(express.json());
+
+app.use("/auth", authRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
