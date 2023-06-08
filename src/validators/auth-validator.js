@@ -1,0 +1,44 @@
+const Joi = require("joi");
+
+const validate = require("./validate");
+
+const registerSchema = Joi.object({
+  FirsName: Joi.string().trim().required(),
+  lastName: Joi.string().trim().required(),
+  emailOrMobile: Joi.alternatives([
+    Joi.string().email({ tlds: false }),
+    Joi.string().pattern(/^[0-9]{10}$/),
+  ]).strip(),
+  password: Joi.string()
+    .pattern(/^[a-zA-Z0-9]{6,30}$/)
+    .trim()
+    .required(),
+  confirmPassword: Joi.string()
+    .valid(Joi.ref("password"))
+    .trim()
+    .required()
+    .strip(),
+  email: Joi.forbidden().when("emailOrMobile", {
+    is: Joi.string().email()({ tlds: False }),
+    then: Joi.string().default(Joi.ref("emailOrMobile")),
+  }),
+});
+
+const loginSchema = Joi.object({
+  emailOrMobile: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
+const addressSchema = Joi.object({
+  houseNumber: Joi.string().pattern(/^[0-9/]{10}$/),
+  soi: Joi.string().trim(),
+  city: Joi.string().trim().required(),
+  province: Joi.string().trim().required(),
+  postalCode: Joi.string()
+    .trim()
+    .pattern(/^[0-9]{5}$/),
+});
+
+exports.validateRegister = validate(registerSchema);
+exports.validateLogin = validate(loginSchema);
+exports.validateAddress = validate(addressSchema);
