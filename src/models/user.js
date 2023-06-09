@@ -32,29 +32,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    avatar: {
-      type: DataTypes.STRING,
-      defaultValue: "default-avatar.png",
-    },
   });
 
   User.associate = (models) => {
-    User.hasMany(models.Address, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    User.hasMany(models.Cart, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    User.hasMany(models.Wishlist, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    User.hasMany(models.Order, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
+    User.hasOne(models.Avatar, { foreignKey: "UserID" });
+    User.hasMany(models.Address, { foreignKey: "UserID", onDelete: "CASCADE" });
+    User.hasMany(models.Order, { foreignKey: "UserID" });
   };
 
   return User;

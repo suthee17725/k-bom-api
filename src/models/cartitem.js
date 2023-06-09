@@ -1,21 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
   const CartItem = sequelize.define("CartItem", {
-    quantity: {
+    CartItemID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
+      primaryKey: true,
+      autoIncrement: true,
     },
+    Quantity: DataTypes.INTEGER,
   });
 
   CartItem.associate = (models) => {
     CartItem.belongsTo(models.Cart, {
-      foreignKey: "cartId",
+      foreignKey: "CartID",
       onDelete: "CASCADE",
     });
-    CartItem.belongsTo(models.Product, {
-      foreignKey: "productId",
-      onDelete: "CASCADE",
-    });
+    CartItem.belongsTo(models.Album, { foreignKey: "AlbumID" });
   };
 
   return CartItem;

@@ -1,36 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define("Order", {
-    orderNumber: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+    OrderID: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    totalAmount: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-      validate: {
-        min: 0,
-      },
-    },
-    paymentStatus: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
+    OrderDate: DataTypes.DATE,
+    TotalAmount: DataTypes.DECIMAL(10, 2),
   });
 
   Order.associate = (models) => {
-    Order.belongsTo(models.User, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    Order.belongsTo(models.Address, {
-      foreignKey: "addressId",
-      onDelete: "CASCADE",
-    });
-    Order.belongsToMany(models.Product, {
-      through: models.OrderItem,
-      foreignKey: "orderId",
-      as: "products",
-    });
+    Order.belongsTo(models.User, { foreignKey: "UserID" });
+    Order.hasOne(models.Payment, { foreignKey: "PaymentID" });
   };
 
   return Order;

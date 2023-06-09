@@ -1,18 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Cart = sequelize.define("Cart", {
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    CartID: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
   });
 
   Cart.associate = (models) => {
-    Cart.belongsTo(models.User, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
+    Cart.belongsTo(models.User, { foreignKey: "UserID" });
     Cart.hasMany(models.CartItem, {
-      foreignKey: "cartId",
+      foreignKey: "CartID",
       onDelete: "CASCADE",
     });
   };
