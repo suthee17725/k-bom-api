@@ -29,3 +29,30 @@ exports.register = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.login = async (req, res, next) => {
+  try {
+    const value = validateLogin(req.body);
+    const user = await userService.getUserByEmailOrMobile(value.emailOrMobile);
+    if (!user) {
+      createError("invalid credential", 400);
+    }
+    const isCorrect = await bcryptService.compare(
+      value.password,
+      user.password
+    );
+
+    if (!isCorrect) {
+      createError("invalid credential", 400);
+    }
+
+    const accessToken = tokenService.sign({ id: user.id });
+    res.status(200).json({ accessToken });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getMe = (req, res, next) => {
+  res.status(200).json({ user: req.user });
+};
