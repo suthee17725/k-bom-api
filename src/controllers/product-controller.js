@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 const { request } = require("express");
 const { Product } = require("../models");
+=======
+const Product = require("../models/product");
+>>>>>>> a16c367f4c316427acf9a5f9f619777bfaa117ce
 
 // แสดงรายการสินค้าทั้งหมด
 exports.getAllProducts = async (req, res) => {
@@ -18,6 +22,7 @@ exports.getAllProducts = async (req, res) => {
 // เพิ่มสินค้าใหม่
 exports.createProduct = async (req, res) => {
   try {
+<<<<<<< HEAD
     const { title, artist, description, releaseDate, price, images } = req.body;
 
     // สร้างสินค้าในฐานข้อมูล
@@ -30,6 +35,18 @@ exports.createProduct = async (req, res) => {
       images,
     });
     res.status(201).json(result);
+=======
+    const { title, artist, genre } = req.body;
+
+    // สร้างสินค้าในฐานข้อมูล
+    const product = await Product.create({
+      title,
+      artist,
+      genre,
+    });
+
+    res.status(201).json({ product });
+>>>>>>> a16c367f4c316427acf9a5f9f619777bfaa117ce
   } catch (error) {
     console.error("Error creating product:", error);
     res
@@ -42,7 +59,11 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const { productId } = req.params;
+<<<<<<< HEAD
     const { title, artist, description, releaseDate, price, images } = req.body;
+=======
+    const { title, artist, genre } = req.body;
+>>>>>>> a16c367f4c316427acf9a5f9f619777bfaa117ce
 
     // ค้นหาสินค้าตาม ID
     const product = await Product.findByPk(productId);
@@ -54,11 +75,15 @@ exports.updateProduct = async (req, res) => {
     // อัพเดตข้อมูลสินค้า
     product.title = title;
     product.artist = artist;
+<<<<<<< HEAD
     product.description = description;
     product.releaseDate = releaseDate;
     product.price = price;
     product.images = images;
 
+=======
+    product.genre = genre;
+>>>>>>> a16c367f4c316427acf9a5f9f619777bfaa117ce
     await product.save();
 
     res.status(200).json({ product });

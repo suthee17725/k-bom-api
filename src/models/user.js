@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    HouseNo: DataTypes.STRING,
+    Street: DataTypes.STRING,
+    District: DataTypes.STRING,
+    Province: DataTypes.STRING,
+    PostalCode: DataTypes.STRING,
   });
 
   User.associate = (models) => {
