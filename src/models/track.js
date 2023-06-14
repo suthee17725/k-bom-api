@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Track.associate = (models) => {
-    Track.belongsTo(models.Album, { foreignKey: "AlbumID" });
+    Track.belongsTo(models.Product, { foreignKey: "ProductID" });
   };
 
   return Track;

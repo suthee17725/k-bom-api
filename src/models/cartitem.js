@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "CartID",
       onDelete: "CASCADE",
     });
-    CartItem.belongsTo(models.Album, { foreignKey: "AlbumID" });
+    CartItem.belongsTo(models.Product, { foreignKey: "ProductID" });
   };
 
   return CartItem;
