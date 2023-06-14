@@ -1,107 +1,108 @@
-const Album = require("../models/album");
+const Product = require("../models/product");
 
-// แสดงรายการอัลบั้มเพลงทั้งหมด
-exports.getAllAlbums = async (req, res) => {
+// แสดงรายการสินค้าทั้งหมด
+exports.getAllProducts = async (req, res) => {
   try {
-    const albums = await Album.findAll();
+    const products = await Product.findAll();
 
-    res.status(200).json({ albums });
+    res.status(200).json({ products });
   } catch (error) {
-    console.error("Error retrieving albums:", error);
+    console.error("Error retrieving products:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while retrieving albums" });
+      .json({ error: "An error occurred while retrieving products" });
   }
 };
-// เพิ่มอัลบั้มเพลงใหม่
-exports.createAlbum = async (req, res) => {
+
+// เพิ่มสินค้าใหม่
+exports.createProduct = async (req, res) => {
   try {
     const { title, artist, genre } = req.body;
 
-    // สร้างอัลบั้มเพลงในฐานข้อมูล
-    const album = await Album.create({
+    // สร้างสินค้าในฐานข้อมูล
+    const product = await Product.create({
       title,
       artist,
       genre,
     });
 
-    res.status(201).json({ album });
+    res.status(201).json({ product });
   } catch (error) {
-    console.error("Error creating album:", error);
+    console.error("Error creating product:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while creating the album" });
+      .json({ error: "An error occurred while creating the product" });
   }
 };
 
-// แก้ไขข้อมูลของอัลบั้มเพลง
-exports.updateAlbum = async (req, res) => {
+// แก้ไขข้อมูลสินค้า
+exports.updateProduct = async (req, res) => {
   try {
-    const { albumId } = req.params;
+    const { productId } = req.params;
     const { title, artist, genre } = req.body;
 
-    // ค้นหาอัลบั้มเพลงตาม ID
-    const album = await Album.findByPk(albumId);
+    // ค้นหาสินค้าตาม ID
+    const product = await Product.findByPk(productId);
 
-    if (!album) {
-      return res.status(404).json({ error: "Album not found" });
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    // อัพเดตข้อมูลของอัลบั้มเพลง
-    album.title = title;
-    album.artist = artist;
-    album.genre = genre;
-    await album.save();
+    // อัพเดตข้อมูลสินค้า
+    product.title = title;
+    product.artist = artist;
+    product.genre = genre;
+    await product.save();
 
-    res.status(200).json({ album });
+    res.status(200).json({ product });
   } catch (error) {
-    console.error("Error updating album:", error);
+    console.error("Error updating product:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while updating the album" });
+      .json({ error: "An error occurred while updating the product" });
   }
 };
 
-// ลบอัลบั้มเพลงออกจากระบบ
-exports.deleteAlbum = async (req, res) => {
+// ลบสินค้าออกจากระบบ
+exports.deleteProduct = async (req, res) => {
   try {
-    const { albumId } = req.params;
+    const { productId } = req.params;
 
-    // ค้นหาอัลบั้มเพลงตาม ID
-    const album = await Album.findByPk(albumId);
+    // ค้นหาสินค้าตาม ID
+    const product = await Product.findByPk(productId);
 
-    if (!album) {
-      return res.status(404).json({ error: "Album not found" });
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    // ลบอัลบั้มเพลง
-    await album.destroy();
+    // ลบสินค้า
+    await product.destroy();
 
-    res.status(200).json({ message: "Album deleted successfully" });
+    res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
-    console.error("Error deleting album:", error);
+    console.error("Error deleting product:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while deleting the album" });
+      .json({ error: "An error occurred while deleting the product" });
   }
 };
 
-exports.getAlbumDetails = async (req, res) => {
+exports.getProductDetails = async (req, res) => {
   try {
-    const { albumId } = req.params;
+    const { productId } = req.params;
 
-    // ค้นหาอัลบั้มเพลงตาม ID
-    const album = await Album.findByPk(albumId);
+    // ค้นหาสินค้าตาม ID
+    const product = await Product.findByPk(productId);
 
-    if (!album) {
-      return res.status(404).json({ error: "Album not found" });
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    res.status(200).json({ album });
+    res.status(200).json({ product });
   } catch (error) {
-    console.error("Error retrieving album details:", error);
+    console.error("Error retrieving product details:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while retrieving album details" });
+      .json({ error: "An error occurred while retrieving product details" });
   }
 };

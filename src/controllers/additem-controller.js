@@ -1,20 +1,20 @@
-const Album = require("../models/album");
+const Product = require("../models/product");
 const Cart = require("../models/cart");
 const CartItem = require("../models/cartItem");
 
-// สร้างการซื้ออัลบั้มใหม่
-exports.purchaseAlbum = async (req, res) => {
+// สร้างการซื้อสินค้าใหม่
+exports.purchaseProduct = async (req, res) => {
   try {
-    const { albumId, quantity } = req.body;
+    const { productId, quantity } = req.body;
 
-    const album = await Album.findByPk(albumId);
+    const product = await Product.findByPk(productId);
 
-    if (!album) {
-      return res.status(404).json({ error: "Album not found" });
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
     }
 
     const cartItem = await CartItem.create({
-      AlbumId: album.id,
+      ProductId: product.id,
       Quantity: quantity,
     });
 
@@ -26,11 +26,11 @@ exports.purchaseAlbum = async (req, res) => {
 
     await cart.addCartItem(cartItem);
 
-    res.status(200).json({ message: "Album purchased successfully" });
+    res.status(200).json({ message: "Product purchased successfully" });
   } catch (error) {
-    console.error("Error purchasing album:", error);
+    console.error("Error purchasing product:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while purchasing the album" });
+      .json({ error: "An error occurred while purchasing the product" });
   }
 };
