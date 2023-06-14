@@ -5,7 +5,7 @@ const {
   createOrder,
   getOrderDetails,
   cancelOrder,
-} = require("../controllers/orderController");
+} = require("../controllers/order-controller");
 
 router.post("/", createOrder); //สร้างออเดอร์ใหม่
 router.get("/:orderId", getOrderDetails); // รายละเอียดออเดอร์

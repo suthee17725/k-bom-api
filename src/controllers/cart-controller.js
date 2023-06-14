@@ -4,7 +4,7 @@ const CartItem = require("../models/cartItem");
 // เพิ่มสินค้าในตะกร้าสินค้า
 exports.addToCart = async (req, res) => {
   try {
-    const { albumId, quantity } = req.body;
+    const { ProductID, quantity } = req.body;
 
     // ตรวจสอบว่าผู้ใช้มีตะกร้าสินค้าหรือยัง
     let cart = await Cart.findOne({ where: { UserID: req.user.id } });
@@ -16,7 +16,7 @@ exports.addToCart = async (req, res) => {
 
     // สร้างรายการในตะกร้าสินค้า
     const cartItem = await CartItem.create({
-      AlbumID: albumId,
+      ProductID: ProductID,
       Quantity: quantity,
     });
 

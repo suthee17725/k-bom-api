@@ -4,12 +4,12 @@ const Order = require("../models/order");
 exports.createOrder = async (req, res) => {
   try {
     // รับข้อมูลที่จำเป็นจาก body
-    const { userId, albumId, quantity } = req.body;
+    const { userId, ProductID, quantity } = req.body;
 
     // สร้างคำสั่งซื้อใหม่
     const order = await Order.create({
       userId,
-      albumId,
+      ProductID,
       quantity,
     });
 
